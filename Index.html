@@ -1,384 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="theme-color" content="#0b1020" />
-<title>Under Maintenance — We'll Be Back Soon</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-<style>
-  /* ============ RESET ============ */
-  *,
-  *::before,
-  *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html,
-  body {
-    height: 100%;
-  }
-
-  body {
-    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    color: #eaf2ff;
-    /* Fallback colour if abc.png hasn't loaded yet */
-    background: linear-gradient(135deg, #070b18 0%, #131a35 45%, #0a0f22 100%);
-  }
-
-  /* ============ BACKGROUND IMAGE (abc.png) ============ */
-  /* Put abc.png in the SAME folder as this index.html file */
-  .bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background-image: url("abc.png");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    transform-origin: center;
-    animation: kenburns 30s ease-in-out infinite alternate;
-    will-change: transform;
-  }
-
-  @keyframes kenburns {
-    0%   { transform: scale(1)    translate3d(0, 0, 0); }
-    100% { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
-  }
-
-  /* ============ DARK OVERLAY FOR READABILITY ============ */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    background:
-      radial-gradient(ellipse at 50% 45%,
-        rgba(4, 8, 20, 0.35) 0%,
-        rgba(4, 8, 20, 0.68) 55%,
-        rgba(2, 4, 12, 0.92) 100%),
-      linear-gradient(180deg, rgba(3, 7, 18, 0.55) 0%, rgba(3, 7, 18, 0.75) 100%);
-  }
-
-  /* ============ AMBIENT GLOW BLOBS ============ */
-  .glow {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(110px);
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 2;
-  }
-  .glow-1 {
-    width: 440px; height: 440px;
-    background: #2563eb;
-    top: -140px; left: -130px;
-    animation: float1 16s ease-in-out infinite;
-  }
-  .glow-2 {
-    width: 400px; height: 400px;
-    background: #7c3aed;
-    bottom: -160px; right: -120px;
-    animation: float2 20s ease-in-out infinite;
-  }
-  .glow-3 {
-    width: 300px; height: 300px;
-    background: #06b6d4;
-    top: 55%; left: 8%;
-    opacity: 0.25;
-    animation: float1 22s ease-in-out infinite reverse;
-  }
-
-  @keyframes float1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(60px, 50px) scale(1.15); }
-  }
-  @keyframes float2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50%      { transform: translate(-70px, -40px) scale(1.2); }
-  }
-
-  /* ============ GLASS CARD ============ */
-  .card {
-    position: relative;
-    z-index: 5;
-    width: min(92vw, 640px);
-    padding: 52px 44px 46px;
-    text-align: center;
-    border-radius: 30px;
-    background: rgba(13, 20, 40, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    box-shadow:
-      0 30px 90px rgba(0, 0, 0, 0.6),
-      0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-      0 1px 0 rgba(255, 255, 255, 0.14) inset;
-    animation: rise 1s cubic-bezier(0.2, 0.85, 0.25, 1) both;
-    overflow: hidden;
-  }
-
-  /* Animated top accent line */
-  .card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #22d3ee, #818cf8, #e879f9, #22d3ee);
-    background-size: 300% 100%;
-    animation: slideGradient 6s linear infinite;
-  }
-
-  @keyframes slideGradient {
-    0%   { background-position: 0% 50%; }
-    100% { background-position: 300% 50%; }
-  }
-
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(38px) scale(0.96); filter: blur(6px); }
-    to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  }
-
-  /* ============ BADGE ============ */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 18px;
-    margin-bottom: 28px;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    color: #a5e8ff;
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid rgba(34, 211, 238, 0.32);
-    box-shadow: 0 0 22px rgba(34, 211, 238, 0.18);
-  }
-
-  .pulse-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #22d3ee;
-    animation: pulse 2s ease-out infinite;
-  }
-
-  @keyframes pulse {
-    0%   { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.75); }
-    70%  { box-shadow: 0 0 0 10px rgba(34, 211, 238, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
-  }
-
-  /* ============ ICON / GEARS ============ */
-  .icon-wrap {
-    position: relative;
-    width: 118px;
-    height: 118px;
-    margin: 0 auto 28px;
-    display: grid;
-    place-items: center;
-  }
-
-  .ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px dashed rgba(125, 211, 252, 0.45);
-    animation: spin 14s linear infinite;
-  }
-
-  .ring::after {
-    content: "";
-    position: absolute;
-    inset: -10px;
-    border-radius: 50%;
-    border: 1px solid rgba(129, 140, 248, 0.2);
-  }
-
-  .gear {
-    width: 58px;
-    height: 58px;
-    color: #7dd3fc;
-    animation: spin 9s linear infinite;
-    filter: drop-shadow(0 0 14px rgba(56, 189, 248, 0.75));
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  /* ============ TEXT ============ */
-  h1 {
-    font-size: clamp(1.75rem, 5.2vw, 2.85rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-    margin-bottom: 16px;
-    background: linear-gradient(100deg, #ffffff 0%, #a5d8ff 30%, #c4b5fd 55%, #ffffff 85%);
-    background-size: 220% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: shine 6s linear infinite;
-  }
-
-  @keyframes shine {
-    to { background-position: 220% center; }
-  }
-
-  .sub {
-    font-size: clamp(0.9rem, 2.4vw, 1rem);
-    font-weight: 300;
-    line-height: 1.75;
-    color: rgba(224, 236, 255, 0.78);
-    max-width: 460px;
-    margin: 0 auto;
-  }
-
-  /* ============ PROGRESS BAR ============ */
-  .progress {
-    position: relative;
-    height: 6px;
-    width: min(100%, 380px);
-    margin: 32px auto 0;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
-  }
-
-  .bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 42%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #22d3ee, #818cf8, #e879f9);
-    box-shadow: 0 0 16px rgba(129, 140, 248, 0.9);
-    animation: slide 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-  }
-
-  @keyframes slide {
-    0%   { transform: translateX(-110%); }
-    100% { transform: translateX(340%); }
-  }
-
-  /* ============ LOADING DOTS ============ */
-  .dots {
-    display: flex;
-    justify-content: center;
-    gap: 9px;
-    margin-top: 26px;
-  }
-
-  .dots span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #7dd3fc;
-    box-shadow: 0 0 10px rgba(125, 211, 252, 0.8);
-    animation: bounce 1.4s ease-in-out infinite both;
-  }
-
-  .dots span:nth-child(2) { animation-delay: 0.16s; background: #a5b4fc; }
-  .dots span:nth-child(3) { animation-delay: 0.32s; background: #d8b4fe; }
-
-  @keyframes bounce {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.45; }
-    40%           { transform: scale(1.15); opacity: 1; }
-  }
-
-  /* ============ FOOTER NOTE ============ */
-  .note {
-    margin-top: 28px;
-    font-size: 0.76rem;
-    letter-spacing: 0.6px;
-    color: rgba(200, 216, 240, 0.5);
-  }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 520px) {
-    .card { padding: 40px 24px 36px; border-radius: 24px; }
-    .icon-wrap { width: 96px; height: 96px; margin-bottom: 22px; }
-    .gear { width: 48px; height: 48px; }
-    .badge { font-size: 0.65rem; padding: 7px 14px; letter-spacing: 1.2px; }
-  }
-
-  /* ============ ACCESSIBILITY ============ */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-    }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HALDIA LPG BOTTLING PLANT</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, sans-serif; }
+    body { background:#f0f4f8; padding-bottom:80px; color:#1e293b; }
+    .app-header { background:linear-gradient(135deg, #003153, #2d6a4f); color:white; padding:20px; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+    .app-header h1 { font-size:1.5rem; margin-bottom:10px; }
+    .tab-bar { display:flex; gap:10px; overflow-x:auto; padding:10px 0; }
+    .tab-btn { background:rgba(255,255,255,0.2); color:white; border:none; padding:10px 20px; border-radius:25px; cursor:pointer; white-space:nowrap; font-weight:500; }
+    .tab-btn.active { background:white; color:#003153; }
+    .container { max-width:800px; margin:0 auto; padding:15px; }
+    .kpi-scroll { display:flex; gap:10px; overflow-x:auto; padding:10px 0; margin-bottom:15px; }
+    .kpi-card { background:white; border-radius:15px; padding:15px; min-width:140px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .kpi-card h3 { font-size:1.8rem; color:#003153; }
+    .kpi-card p { font-size:0.8rem; color:#64748b; }
+    .filter-section { background:white; border-radius:15px; padding:15px; margin-bottom:15px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .filter-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+    .filter-select { flex:1; min-width:130px; padding:10px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; }
+    .search-box { flex:2; min-width:180px; padding:10px 14px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; font-size:0.95rem; display:flex; align-items:center; gap:8px; }
+    .search-box i { color:#64748b; }
+    .search-box input { border:none; background:transparent; width:100%; outline:none; font-size:0.95rem; }
+    .visuals-grid { display:grid; gap:15px; margin-bottom:15px; }
+    .visual-card { background:white; border-radius:15px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .visual-card h3 { font-size:1rem; margin-bottom:10px; color:#003153; }
+    canvas { max-height:200px; }
+    .table-container { background:white; border-radius:15px; padding:15px; box-shadow:0 2px 8px rgba(0,0,0,0.1); overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:0.8rem; min-width:800px; }
+    th { background:#f1f5f9; padding:10px; text-align:left; position:sticky; top:0; }
+    td { padding:10px; border-bottom:1px solid #e2e8f0; }
+    .floating-btn { position:fixed; bottom:20px; right:20px; background:#003153; color:white; width:60px; height:60px; border-radius:50%; border:none; font-size:2rem; box-shadow:0 4px 12px rgba(0,0,0,0.3); cursor:pointer; z-index:1000; }
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1001; padding:20px; }
+    .modal-content { background:white; border-radius:20px; padding:20px; max-height:90vh; overflow-y:auto; margin-top:30px; }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+    .close-btn { background:#ef4444; color:white; border:none; width:35px; height:35px; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+    .form-group { margin-bottom:15px; }
+    .form-group label { display:block; margin-bottom:5px; font-weight:500; color:#003153; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:12px; border:1px solid #e2e8f0; border-radius:10px; font-size:0.9rem; }
+    .btn-primary { background:#003153; color:white; border:none; padding:12px 24px; border-radius:10px; cursor:pointer; font-weight:600; width:100%; margin-top:10px; }
+    .btn-danger { background:#b91c1c; color:white; border:none; padding:12px 24px; border-radius:10px; cursor:pointer; font-weight:600; width:100%; margin-top:10px; }
+    .upload-section { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; align-items:center; }
+    .upload-btn { background:#2d6a4f; color:white; padding:10px 15px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.9rem; }
+    .save-btn { background:#1e3a5f; color:white; padding:10px 15px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.9rem; border:none; }
+    .delete-all-btn { background:#b91c1c; color:white; padding:10px 15px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:5px; font-size:0.9rem; border:none; }
+    .badge { padding:4px 10px; border-radius:12px; font-size:0.7rem; font-weight:600; }
+    .badge-instock { background:#dcfce7; color:#166534; }
+    .badge-low { background:#fef3c7; color:#92400e; }
+    .badge-out { background:#fee2e2; color:#991b1b; }
+    @media (min-width:768px) { .visuals-grid { grid-template-columns:repeat(2,1fr); } }
+    .issued-row { background:#f8fafc; }
+    .inventory-search { margin-bottom:15px; }
+    .danger-zone { margin-top:15px; padding:15px; border:2px solid #fee2e2; border-radius:10px; background:#fef2f2; }
+    .danger-zone h4 { color:#b91c1c; margin-bottom:10px; }
+  </style>
 </head>
-
 <body>
 
-  <!-- Background image layer (abc.png) -->
-  <div class="bg" aria-hidden="true"></div>
+<div class="app-header">
+  <h1><i class="fas fa-gas-pump"></i> HALDIA LPG BOTTLING PLANT</h1>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('inventory')">Inventory</button>
+    <button class="tab-btn" onclick="switchTab('issued')">Issued</button>
+    <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+  </div>
+</div>
 
-  <!-- Dark gradient overlay -->
-  <div class="overlay" aria-hidden="true"></div>
-
-  <!-- Ambient glows -->
-  <div class="glow glow-1" aria-hidden="true"></div>
-  <div class="glow glow-2" aria-hidden="true"></div>
-  <div class="glow glow-3" aria-hidden="true"></div>
-
-  <!-- Main content card -->
-  <main class="card" role="main">
-
-    <div class="badge">
-      <span class="pulse-dot"></span>
-      Maintenance in progress
+<!-- Dashboard Tab -->
+<div id="dashboardTab" class="container">
+  <div class="kpi-scroll" id="kpiContainer"></div>
+  <div class="filter-section">
+    <div class="filter-row">
+      <select class="filter-select" id="machineFilter" onchange="updateDashboard()">
+        <option value="all">All Machines</option>
+      </select>
+      <select class="filter-select" id="statusFilter" onchange="updateDashboard()">
+        <option value="all">All Status</option><option value="In Stock">In Stock</option><option value="Low Stock">Low Stock</option><option value="Out of Stock">Out of Stock</option>
+      </select>
+      <div class="search-box"><i class="fas fa-search"></i><input type="text" id="nameSearch" placeholder="Search material..." oninput="updateDashboard()"></div>
     </div>
-
-    <div class="icon-wrap" aria-hidden="true">
-      <div class="ring"></div>
-      <svg class="gear" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="1.6"
-           stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
-        <circle cx="12" cy="12" r="3"/>
-      </svg>
+    <div class="upload-section">
+      <label class="upload-btn" for="excelUpload"><i class="fas fa-file-excel"></i> Upload Excel</label>
+      <input type="file" id="excelUpload" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
+      <button class="save-btn" onclick="saveToLocalStorage()"><i class="fas fa-save"></i> Save</button>
+      <button class="delete-all-btn" onclick="openDeleteModal()"><i class="fas fa-trash-alt"></i> Delete All</button>
     </div>
+  </div>
+  <div class="visuals-grid">
+    <div class="visual-card"><h3><i class="fas fa-chart-bar"></i> Stock by Machine</h3><canvas id="chart1"></canvas></div>
+    <div class="visual-card"><h3><i class="fas fa-chart-pie"></i> Status Distribution</h3><canvas id="chart2"></canvas></div>
+    <div class="visual-card"><h3><i class="fas fa-chart-line"></i> Lead Time Analysis</h3><canvas id="chart3"></canvas></div>
+  </div>
+</div>
 
-    <h1>We'll Be Back Soon</h1>
-
-    <p class="sub">
-      Our website is currently undergoing scheduled maintenance.
-      We're upgrading a few things behind the scenes to serve you better.
-      Thank you for your patience!
-    </p>
-
-    <div class="progress" aria-hidden="true">
-      <div class="bar"></div>
+<!-- Inventory Tab -->
+<div id="inventoryTab" class="container" style="display:none">
+  <div class="filter-section inventory-search">
+    <div class="filter-row">
+      <div class="search-box" style="flex:3;">
+        <i class="fas fa-search"></i>
+        <input type="text" id="inventorySearch" placeholder="Search by spare name, machine, maker..." oninput="updateTable()">
+      </div>
+      <select class="filter-select" id="inventoryMachineFilter" onchange="updateTable()">
+        <option value="all">All Machines</option>
+      </select>
+      <select class="filter-select" id="inventoryStatusFilter" onchange="updateTable()">
+        <option value="all">All Status</option><option value="In Stock">In Stock</option><option value="Low Stock">Low Stock</option><option value="Out of Stock">Out of Stock</option>
+      </select>
     </div>
+  </div>
+  <div class="table-container">
+    <table id="inventoryTable">
+      <thead><tr><th>Spare</th><th>Available</th><th>Reorder</th><th>Status</th><th>Machine</th><th>Maker</th><th>Specs</th><th>Lead Time</th><th>Shelf</th><th>Rack</th><th>Remarks</th><th>Actions</th></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
 
-    <div class="dots" aria-hidden="true">
-      <span></span><span></span><span></span>
+<!-- Issued Tab -->
+<div id="issuedTab" class="container" style="display:none">
+  <div class="filter-section">
+    <div class="filter-row">
+      <select class="filter-select" id="issuedMaterialFilter" onchange="updateIssuedTable()">
+        <option value="all">All Materials</option>
+      </select>
+      <input class="filter-select" type="date" id="issuedDateFilter" onchange="updateIssuedTable()" style="min-width:150px;">
+      <button class="save-btn" onclick="openIssueModal()" style="background:#2d6a4f;"><i class="fas fa-hand-holding"></i> New Issue</button>
     </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Date/Time</th><th>Material</th><th>Qty</th><th>Issued By</th><th>Received By</th><th>Department</th><th>Remarks</th><th>Action</th></tr></thead>
+      <tbody id="issuedTableBody"></tbody>
+    </table>
+  </div>
+</div>
 
-    <p class="note">Please check back in a little while ✦</p>
+<!-- Analytics Tab -->
+<div id="analyticsTab" class="container" style="display:none">
+  <div class="visuals-grid">
+    <div class="visual-card"><h3><i class="fas fa-chart-doughnut"></i> Items by Maker</h3><canvas id="chart4"></canvas></div>
+    <div class="visual-card"><h3><i class="fas fa-chart-area"></i> Stock by Rack</h3><canvas id="chart5"></canvas></div>
+  </div>
+</div>
 
-  </main>
+<button class="floating-btn" onclick="openModal()"><i class="fas fa-plus"></i></button>
 
+<!-- Add Material Modal -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <div class="modal-header"><h2>Add Material</h2><button class="close-btn" onclick="closeModal()">×</button></div>
+    <form id="addForm" onsubmit="saveMaterial(event)">
+      <div class="form-group"><label>Spare Name *</label><input type="text" id="spareName" required></div>
+      <div class="form-group"><label>Available Quantity *</label><input type="number" id="available" required></div>
+      <div class="form-group"><label>Reorder Level *</label><input type="number" id="reorderLevel" required></div>
+      <div class="form-group"><label>Machine/Unit *</label><input type="text" id="machine" placeholder="e.g. LPG Compressor" required></div>
+      <div class="form-group"><label>Maker *</label><input type="text" id="maker" required></div>
+      <div class="form-group"><label>Specifications</label><input type="text" id="specifications"></div>
+      <div class="form-group"><label>Lead Time (days)</label><input type="number" id="leadTime" value="20"></div>
+      <div class="form-group"><label>Shelf No</label><input type="text" id="shelfNo"></div>
+      <div class="form-group"><label>Rack No</label><input type="text" id="rackNo"></div>
+      <div class="form-group"><label>Other Details</label><textarea id="otherDetails" rows="2"></textarea></div>
+      <div class="form-group"><label>Remarks</label><textarea id="remarks" rows="2"></textarea></div>
+      <button type="submit" class="btn-primary">Save Material</button>
+    </form>
+  </div>
+</div>
+
+<!-- Issue Modal -->
+<div class="modal" id="issueModal">
+  <div class="modal-content">
+    <div class="modal-header"><h2><i class="fas fa-hand-holding"></i> Issue Material</h2><button class="close-btn" onclick="closeIssueModal()">×</button></div>
+    <form id="issueForm" onsubmit="saveIssue(event)">
+      <div class="form-group"><label>Material *</label>
+        <select id="issueMaterialSelect" required></select>
+      </div>
+      <div class="form-group"><label>Quantity *</label><input type="number" id="issueQty" required min="1"></div>
+      <div class="form-group"><label>Issued By *</label><input type="text" id="issuedBy" required placeholder="Store manager name"></div>
+      <div class="form-group"><label>Received By *</label><input type="text" id="receivedBy" required placeholder="Recipient name"></div>
+      <div class="form-group"><label>Department / Section</label><input type="text" id="issueDepartment" placeholder="e.g. Production, Maintenance"></div>
+      <div class="form-group"><label>Remarks</label><textarea id="issueRemarks" rows="2"></textarea></div>
+      <div class="form-group"><label>Date (auto)</label><input type="text" id="issueDateDisplay" disabled></div>
+      <button type="submit" class="btn-primary" style="background:#2d6a4f;">Confirm Issue</button>
+    </form>
+  </div>
+</div>
+
+<!-- Delete All Modal -->
+<div class="modal" id="deleteModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="color:#b91c1c;"><i class="fas fa-exclamation-triangle"></i> Delete All Inventory</h2>
+      <button class="close-btn" onclick="closeDeleteModal()">×</button>
+    </div>
+    <div class="danger-zone">
+      <h4>⚠️ WARNING: This action cannot be undone!</h4>
+      <p style="margin-top:10px; color:#64748b;">This will permanently delete all inventory data and issued records. Please enter the security password to confirm.</p>
+    </div>
+    <form id="deleteForm" onsubmit="deleteAllData(event)">
+      <div class="form-group">
+        <label>Enter Security Password *</label>
+        <input type="password" id="deletePassword" placeholder="Enter password..." required>
+      </div>
+      <div class="form-group">
+        <label>Type "DELETE" to confirm *</label>
+        <input type="text" id="deleteConfirm" placeholder="Type DELETE here..." required>
+      </div>
+      <button type="submit" class="btn-danger"><i class="fas fa-trash-alt"></i> Permanently Delete All Data</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ===== PASSWORD CONFIGURATION =====
+  // Change this password to whatever you want
+  const SECURITY_PASSWORD = "admin123";
+  // ===================================
+
+  // Initial data with machine field
+  let storeData = [
+    { spareName: "Compressor Piston Ring", available: 18, reorderLevel: 8, machine: "LPG Compressor", maker: "Atlas Copco", specifications: "Φ 120mm, steel alloy", leadTime: 35, shelfNo: "A1", rackNo: "R1", otherDetails: "High temp resistant", remarks: "" },
+    { spareName: "Filling Valve Seal", available: 4, reorderLevel: 10, machine: "Filling Machine", maker: "Kosan Crisplant", specifications: "NBR 70, 2.5 inch", leadTime: 22, shelfNo: "B3", rackNo: "R2", otherDetails: "For LPG cylinders", remarks: "Urgent purchase" },
+    { spareName: "Conveyor Belt Segment", available: 25, reorderLevel: 6, machine: "Conveyor Motor", maker: "Siemens", specifications: "PVC 5mm, 400mm width", leadTime: 28, shelfNo: "C2", rackNo: "R3", otherDetails: "Anti-static", remarks: "" },
+    { spareName: "Leak Detector Sensor", available: 2, reorderLevel: 4, machine: "Leak Test Unit", maker: "Honeywell", specifications: "0-100 ppm, 24V", leadTime: 45, shelfNo: "D5", rackNo: "R1", otherDetails: "Calibration due", remarks: "Order placed" },
+    { spareName: "Boiler Gasket Set", available: 12, reorderLevel: 5, machine: "Boiler", maker: "Forbes Marshall", specifications: "Graphite, 3 inch", leadTime: 30, shelfNo: "E1", rackNo: "R4", otherDetails: "Steam rated", remarks: "" },
+    { spareName: "Pressure Gauge 0-25 bar", available: 9, reorderLevel: 7, machine: "LPG Compressor", maker: "WIKA", specifications: "SS316, 63mm dial", leadTime: 25, shelfNo: "A4", rackNo: "R2", otherDetails: "Glycerine filled", remarks: "" }
+  ];
+
+  let issuedRecords = [];
+  let charts = {};
+  let editingIndex = -1;
+
+  const savedData = localStorage.getItem('haldiaStoreData');
+  if (savedData) try { storeData = JSON.parse(savedData); } catch(e) {}
+  const savedIssued = localStorage.getItem('haldiaIssuedData');
+  if (savedIssued) try { issuedRecords = JSON.parse(savedIssued); } catch(e) {}
+
+  function getStatus(item) {
+    if (item.available === 0) return 'Out of Stock';
+    if (item.available <= item.reorderLevel) return 'Low Stock';
+    return 'In Stock';
+  }
+
+  function getFilteredData() {
+    const machineFilter = document.getElementById('machineFilter').value;
+    const statusFilter = document.getElementById('statusFilter').value;
+    const searchTerm = document.getElementById('nameSearch').value.toLowerCase().trim();
+    return storeData.filter(item => {
+      const status = getStatus(item);
+      if (machineFilter !== 'all' && item.machine !== machineFilter) return false;
+      if (statusFilter !== 'all' && status !== statusFilter) return false;
+      if (searchTerm && !item.spareName.toLowerCase().includes(searchTerm) && !item.machine.toLowerCase().includes(searchTerm) && !item.maker.toLowerCase().includes(searchTerm)) return false;
+      return true;
+    });
+  }
+
+  function populateMachineFilter() {
+    const machines = [...new Set(storeData.map(d => d.machine).filter(Boolean))];
+    const sel = document.getElementById('machineFilter');
+    const current = sel.value;
+    sel.innerHTML = '<option value="all">All Machines</option>' + machines.map(m => `<option value="${m}">${m}</option>`).join('');
+    sel.value = current;
+    const invSel = document.getElementById('inventoryMachineFilter');
+    const invCurrent = invSel.value;
+    invSel.innerHTML = '<option value="all">All Machines</option>' + machines.map(m => `<option value="${m}">${m}</option>`).join('');
+    invSel.value = invCurrent;
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    ['dashboardTab','inventoryTab','issuedTab','analyticsTab'].forEach(id => document.getElementById(id).style.display='none');
+    if (tab==='dashboard') { document.getElementById('dashboardTab').style.display='block'; document.querySelectorAll('.tab-btn')[0].classList.add('active'); updateDashboard(); }
+    else if (tab==='inventory') { document.getElementById('inventoryTab').style.display='block'; document.querySelectorAll('.tab-btn')[1].classList.add('active'); populateMachineFilter(); updateTable(); }
+    else if (tab==='issued') { document.getElementById('issuedTab').style.display='block'; document.querySelectorAll('.tab-btn')[2].classList.add('active'); populateIssueSelect(); updateIssuedTable(); }
+    else { document.getElementById('analyticsTab').style.display='block'; document.querySelectorAll('.tab-btn')[3].classList.add('active'); updateAnalytics(); }
+  }
+
+  function updateDashboard() {
+    populateMachineFilter();
+    const data = getFilteredData();
+    const totalItems = data.length, totalStock = data.reduce((s,d) => s+d.available, 0);
+    const lowStock = data.filter(d => getStatus(d)==='Low Stock').length;
+    const outStock = data.filter(d => getStatus(d)==='Out of Stock').length;
+    const reorderNeed = data.filter(d => d.available <= d.reorderLevel).length;
+    document.getElementById('kpiContainer').innerHTML = `
+      <div class="kpi-card"><h3>${totalItems}</h3><p>Spare Types</p></div>
+      <div class="kpi-card"><h3>${totalStock}</h3><p>Total Units</p></div>
+      <div class="kpi-card"><h3>${lowStock}</h3><p>Low Stock</p></div>
+      <div class="kpi-card"><h3>${outStock}</h3><p>Out of Stock</p></div>
+      <div class="kpi-card"><h3>${reorderNeed}</h3><p>Need Reorder</p></div>
+    `;
+    const machineMap = {};
+    data.forEach(d => { machineMap[d.machine] = (machineMap[d.machine]||0) + d.available; });
+    if (charts.chart1) charts.chart1.destroy();
+    charts.chart1 = new Chart(document.getElementById('chart1'), { type:'bar', data:{ labels:Object.keys(machineMap), datasets:[{ label:'Stock', data:Object.values(machineMap), backgroundColor:'#2d6a4f' }] } });
+    
+    const statusCount = {'In Stock':0, 'Low Stock':0, 'Out of Stock':0};
+    data.forEach(d => { statusCount[getStatus(d)]++; });
+    if (charts.chart2) charts.chart2.destroy();
+    charts.chart2 = new Chart(document.getElementById('chart2'), { type:'doughnut', data:{ labels:Object.keys(statusCount), datasets:[{ data:Object.values(statusCount), backgroundColor:['#2d6a4f','#f59e0b','#b91c1c'] }] } });
+    
+    if (charts.chart3) charts.chart3.destroy();
+    charts.chart3 = new Chart(document.getElementById('chart3'), { type:'line', data:{ labels:data.map(d=>d.spareName.substring(0,10)), datasets:[{ label:'Lead Time', data:data.map(d=>d.leadTime), borderColor:'#1e3a5f' }, { label:'Reorder', data:data.map(d=>d.reorderLevel), borderColor:'#b45309' }] } });
+    updateTable();
+  }
+
+  function getInventoryFilteredData() {
+    const searchTerm = document.getElementById('inventorySearch').value.toLowerCase().trim();
+    const machineFilter = document.getElementById('inventoryMachineFilter').value;
+    const statusFilter = document.getElementById('inventoryStatusFilter').value;
+    return storeData.filter(item => {
+      const status = getStatus(item);
+      if (machineFilter !== 'all' && item.machine !== machineFilter) return false;
+      if (statusFilter !== 'all' && status !== statusFilter) return false;
+      if (searchTerm) {
+        const match = item.spareName.toLowerCase().includes(searchTerm) ||
+                      item.machine.toLowerCase().includes(searchTerm) ||
+                      item.maker.toLowerCase().includes(searchTerm) ||
+                      (item.specifications && item.specifications.toLowerCase().includes(searchTerm));
+        if (!match) return false;
+      }
+      return true;
+    });
+  }
+
+  function updateTable() {
+    const data = getInventoryFilteredData();
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = data.map((item, index) => {
+      const status = getStatus(item);
+      const badgeClass = status==='In Stock'?'badge-instock':status==='Low Stock'?'badge-low':'badge-out';
+      const origIndex = storeData.indexOf(item);
+      return `<tr><td><strong>${item.spareName}</strong></td><td>${item.available}</td><td>${item.reorderLevel}</td><td><span class="badge ${badgeClass}">${status}</span></td><td>${item.machine||'-'}</td><td>${item.maker}</td><td>${item.specifications||'-'}</td><td>${item.leadTime} days</td><td>${item.shelfNo||'-'}</td><td>${item.rackNo||'-'}</td><td>${item.remarks||'-'}</td><td><button onclick="editMaterial(${origIndex})" style="background:#003153;color:white;border:none;padding:5px 10px;border-radius:5px;">Edit</button> <button onclick="deleteMaterial(${origIndex})" style="background:#ef4444;color:white;border:none;padding:5px 10px;border-radius:5px;">Del</button></td></tr>`;
+    }).join('');
+  }
+
+  function updateAnalytics() {
+    const makerMap = {}; storeData.forEach(d => { makerMap[d.maker] = (makerMap[d.maker]||0)+1; });
+    if (charts.chart4) charts.chart4.destroy();
+    charts.chart4 = new Chart(document.getElementById('chart4'), { type:'bar', data:{ labels:Object.keys(makerMap), datasets:[{ label:'Items', data:Object.values(makerMap), backgroundColor:'#3b82f6' }] } });
+    const rackMap = {}; storeData.forEach(d => { rackMap[d.rackNo] = (rackMap[d.rackNo]||0)+d.available; });
+    if (charts.chart5) charts.chart5.destroy();
+    charts.chart5 = new Chart(document.getElementById('chart5'), { type:'polarArea', data:{ labels:Object.keys(rackMap), datasets:[{ data:Object.values(rackMap), backgroundColor:['#1e3a5f','#2d6a4f','#f59e0b','#b91c1c','#8b5cf6'] }] } });
+  }
+
+  // ----- ISSUED FUNCTIONS -----
+  function populateIssueSelect() {
+    const sel = document.getElementById('issueMaterialSelect');
+    sel.innerHTML = storeData.map(d => `<option value="${d.spareName}" data-avail="${d.available}">${d.spareName} (Avail: ${d.available})</option>`).join('');
+    const filterSel = document.getElementById('issuedMaterialFilter');
+    const currentVal = filterSel.value;
+    filterSel.innerHTML = '<option value="all">All Materials</option>' + storeData.map(d => `<option value="${d.spareName}">${d.spareName}</option>`).join('');
+    filterSel.value = currentVal;
+    document.getElementById('issueDateDisplay').value = new Date().toLocaleString();
+  }
+
+  function openIssueModal() {
+    document.getElementById('issueForm').reset();
+    populateIssueSelect();
+    document.getElementById('issueDateDisplay').value = new Date().toLocaleString();
+    document.getElementById('issueModal').style.display = 'block';
+  }
+
+  function closeIssueModal() { document.getElementById('issueModal').style.display = 'none'; }
+
+  function saveIssue(e) {
+    e.preventDefault();
+    const materialName = document.getElementById('issueMaterialSelect').value;
+    const qty = parseInt(document.getElementById('issueQty').value);
+    if (!materialName) { alert('Select a material'); return; }
+    const item = storeData.find(d => d.spareName === materialName);
+    if (!item) { alert('Material not found'); return; }
+    if (qty > item.available) { alert(`Insufficient stock! Available: ${item.available}`); return; }
+    item.available -= qty;
+    const record = {
+      material: materialName, quantity: qty,
+      issuedBy: document.getElementById('issuedBy').value || 'Store Manager',
+      receivedBy: document.getElementById('receivedBy').value || 'Recipient',
+      department: document.getElementById('issueDepartment').value || '-',
+      remarks: document.getElementById('issueRemarks').value || '',
+      dateTime: new Date().toLocaleString(),
+      timestamp: Date.now()
+    };
+    issuedRecords.push(record);
+    localStorage.setItem('haldiaIssuedData', JSON.stringify(issuedRecords));
+    saveToLocalStorage();
+    updateDashboard();
+    updateIssuedTable();
+    closeIssueModal();
+    alert(`Issued ${qty} of ${materialName}`);
+  }
+
+  function updateIssuedTable() {
+    const filterMat = document.getElementById('issuedMaterialFilter').value;
+    const filterDate = document.getElementById('issuedDateFilter').value;
+    let data = issuedRecords.slice().reverse();
+    if (filterMat !== 'all') data = data.filter(r => r.material === filterMat);
+    if (filterDate) {
+      const d = new Date(filterDate);
+      const dStr = d.toLocaleDateString();
+      data = data.filter(r => new Date(r.dateTime).toLocaleDateString() === dStr);
+    }
+    const tbody = document.getElementById('issuedTableBody');
+    tbody.innerHTML = data.map((r, idx) => {
+      const origIdx = issuedRecords.length - 1 - idx;
+      return `<tr class="issued-row"><td>${r.dateTime}</td><td>${r.material}</td><td>${r.quantity}</td><td>${r.issuedBy}</td><td>${r.receivedBy}</td><td>${r.department}</td><td>${r.remarks}</td><td><button onclick="deleteIssue(${origIdx})" style="background:#ef4444;color:white;border:none;padding:4px 10px;border-radius:5px;">Revert</button></td></tr>`;
+    }).join('');
+  }
+
+  function deleteIssue(index) {
+    if (!confirm('Revert this issue? Stock will be restored.')) return;
+    const record = issuedRecords[index];
+    if (!record) return;
+    const item = storeData.find(d => d.spareName === record.material);
+    if (item) item.available += record.quantity;
+    issuedRecords.splice(index, 1);
+    localStorage.setItem('haldiaIssuedData', JSON.stringify(issuedRecords));
+    saveToLocalStorage();
+    updateDashboard();
+    updateIssuedTable();
+    alert('Issue reverted, stock restored.');
+  }
+
+  // ----- DELETE ALL FUNCTION -----
+  function openDeleteModal() {
+    document.getElementById('deleteForm').reset();
+    document.getElementById('deleteModal').style.display = 'block';
+  }
+
+  function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+  }
+
+  function deleteAllData(e) {
+    e.preventDefault();
+    const password = document.getElementById('deletePassword').value;
+    const confirmText = document.getElementById('deleteConfirm').value;
+
+    if (password !== SECURITY_PASSWORD) {
+      alert('❌ Incorrect password! Please enter the correct security password.');
+      return;
+    }
+
+    if (confirmText !== 'DELETE') {
+      alert('❌ Please type "DELETE" exactly as shown to confirm.');
+      return;
+    }
+
+    if (confirm('⚠️ ARE YOU ABSOLUTELY SURE? This will permanently delete ALL inventory data and issued records!')) {
+      storeData = [];
+      issuedRecords = [];
+      localStorage.removeItem('haldiaStoreData');
+      localStorage.removeItem('haldiaIssuedData');
+      closeDeleteModal();
+      updateDashboard();
+      updateIssuedTable();
+      populateIssueSelect();
+      alert('✅ All inventory data and issued records have been permanently deleted.');
+    }
+  }
+
+  // ----- GENERAL -----
+  function openModal() { editingIndex=-1; document.getElementById('addForm').reset(); document.getElementById('addModal').style.display='block'; }
+  function closeModal() { document.getElementById('addModal').style.display='none'; }
+
+  function saveMaterial(e) {
+    e.preventDefault();
+    const material = {
+      spareName: document.getElementById('spareName').value,
+      available: parseInt(document.getElementById('available').value),
+      reorderLevel: parseInt(document.getElementById('reorderLevel').value),
+      machine: document.getElementById('machine').value,
+      maker: document.getElementById('maker').value,
+      specifications: document.getElementById('specifications').value,
+      leadTime: parseInt(document.getElementById('leadTime').value),
+      shelfNo: document.getElementById('shelfNo').value,
+      rackNo: document.getElementById('rackNo').value,
+      otherDetails: document.getElementById('otherDetails').value,
+      remarks: document.getElementById('remarks').value
+    };
+    if (editingIndex >= 0) storeData[editingIndex] = material;
+    else storeData.push(material);
+    closeModal();
+    updateDashboard();
+    saveToLocalStorage();
+  }
+
+  function editMaterial(index) {
+    editingIndex = index; const item = storeData[index];
+    document.getElementById('spareName').value = item.spareName;
+    document.getElementById('available').value = item.available;
+    document.getElementById('reorderLevel').value = item.reorderLevel;
+    document.getElementById('machine').value = item.machine || '';
+    document.getElementById('maker').value = item.maker;
+    document.getElementById('specifications').value = item.specifications;
+    document.getElementById('leadTime').value = item.leadTime;
+    document.getElementById('shelfNo').value = item.shelfNo;
+    document.getElementById('rackNo').value = item.rackNo;
+    document.getElementById('otherDetails').value = item.otherDetails;
+    document.getElementById('remarks').value = item.remarks;
+    document.getElementById('addModal').style.display = 'block';
+  }
+
+  function deleteMaterial(index) {
+    if (confirm('Delete this material?')) { storeData.splice(index,1); updateDashboard(); saveToLocalStorage(); }
+  }
+
+  function handleFileUpload(e) {
+    const file = e.target.files[0]; const reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        const data = new Uint8Array(ev.target.result);
+        const workbook = XLSX.read(data, { type:'array' });
+        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+        const json = XLSX.utils.sheet_to_json(firstSheet);
+        if (json.length) {
+          storeData = json.map(row => ({
+            spareName: row['Spare Name'] || row.spareName || 'Unknown',
+            available: parseInt(row['Available'] || row.available || 0),
+            reorderLevel: parseInt(row['Reorder Level'] || row.reorderLevel || 0),
+            machine: row['Machine/Unit'] || row.machine || '',
+            maker: row['Maker'] || row.maker || '',
+            specifications: row['Specifications'] || row.specifications || '',
+            leadTime: parseInt(row['Lead Time'] || row.leadTime || 20),
+            shelfNo: row['Shelf No'] || row.shelfNo || '',
+            rackNo: row['Rack No'] || row.rackNo || '',
+            otherDetails: row['Other Details'] || row.otherDetails || '',
+            remarks: row['Remarks'] || row.remarks || ''
+          }));
+          updateDashboard(); saveToLocalStorage(); alert('Uploaded!');
+        }
+      } catch(err) { alert('Error: '+err.message); }
+    };
+    reader.readAsArrayBuffer(file);
+    e.target.value='';
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem('haldiaStoreData', JSON.stringify(storeData));
+    localStorage.setItem('haldiaIssuedData', JSON.stringify(issuedRecords));
+    alert('Data saved.');
+  }
+
+  // init
+  updateDashboard();
+  populateIssueSelect();
+  updateIssuedTable();
+</script>
 </body>
 </html>
